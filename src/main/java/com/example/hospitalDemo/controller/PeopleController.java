@@ -3,6 +3,7 @@ package com.example.hospitalDemo.controller;
 import com.example.hospitalDemo.domain.People;
 import com.example.hospitalDemo.repository.OperationsRepository;
 import com.example.hospitalDemo.repository.PeopleRepository;
+import com.example.hospitalDemo.service.PeopleService;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
@@ -18,24 +19,31 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/people")
 public class PeopleController {
-    @PersistenceContext
-    private EntityManager entityManager;
+    //@PersistenceContext
+    //private EntityManager entityManager;
 
-    private PeopleRepository peopleRepository;
-    @Autowired
-    private OperationsRepository operationsRepository;
+    private PeopleService peopleService;
 
-    @Autowired
-    public PeopleController(PeopleRepository peopleRepository) {
-        this.peopleRepository = peopleRepository;
+    //private PeopleRepository peopleRepository;
+    //@Autowired
+    //private OperationsRepository operationsRepository;
+
+    //@Autowired
+    //public PeopleController(PeopleRepository peopleRepository) {
+//        this.peopleRepository = peopleRepository;
+//    }
+
+    public PeopleController(PeopleService peopleService) {
+        this.peopleService = peopleService;
     }
+
     /*@Autowired
     public PeopleController(PeopleRepository peopleRepository,
                             OperationsRepository operationsRepository) {
         this.peopleRepository = peopleRepository;
         this.operationsRepository = operationsRepository;
     }*/
-
+/*
     @GetMapping
     public ResponseEntity<List<People>> getPeople() {
         return new ResponseEntity<>(peopleRepository.findAll(), HttpStatus.OK);
@@ -82,27 +90,30 @@ public class PeopleController {
         }
         return new ResponseEntity(resultStatus);
     }
-
+*/
     @DeleteMapping("/{id}")
-    public ResponseEntity deleteAccount(@PathVariable("id") Long id) {
+    public ResponseEntity<Void> deleteAccount(@PathVariable("id") Long id) {
         HttpStatus resultStatus;
-        Optional<People> peopleToDelete = peopleRepository.findById(id);
+
+        peopleService.delete(id);
+        resultStatus = HttpStatus.OK;
+        //Optional<People> peopleToDelete = peopleRepository.findById(id);
         //Query query = entityManager.createQuery(
           //      "delete from Operations o where (o.doctorId = :p) or (o.patientId = :p)");
 
 
-        if (peopleToDelete.isPresent()) {
-//            operationsRepository.deleteOperationById(id);
+        //if (peopleToDelete.isPresent()) {
+          //  operationsRepository.deleteOperationById(id);
 //            operationsRepository.deleteByDoctorId(id);
 //            operationsRepository.deleteByPatientId(id);
             //int deletedCount = query.setParameter("p", id).executeUpdate();
-            peopleRepository.delete(peopleToDelete.get());
-            resultStatus = HttpStatus.OK;
-        } else {
+           // peopleRepository.delete(peopleToDelete.get());
+            //resultStatus = HttpStatus.OK;
+        /*} else {
             resultStatus = HttpStatus.NOT_FOUND;
-        }
+        }*/
 
-        return new ResponseEntity(resultStatus);
+        return new ResponseEntity<>(resultStatus);
     }
 
 
