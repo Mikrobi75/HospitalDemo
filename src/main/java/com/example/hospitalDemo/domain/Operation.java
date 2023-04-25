@@ -25,4 +25,43 @@ public class Operation {
     @JoinColumn(name = "surgeonid")
     private Surgeon surgeon;
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public LocalDate getOperationDate() {
+        return operationDate;
+    }
+
+    public void setOperationDate(LocalDate operationDate) {
+        this.operationDate = operationDate;
+    }
+
+    public String getOperatingRoom() {
+        return operatingRoom;
+    }
+
+    public void setOperatingRoom(String operatingRoom) {
+        this.operatingRoom = operatingRoom;
+    }
+
+    public Patient getPatient() {
+        return patient;
+    }
+
+    public void setPatient(Patient patient) {
+        this.patient = patient;
+    }
+
+    public Surgeon getSurgeon() {
+        return surgeon;
+    }
+
+    public void setSurgeon(Surgeon surgeon) {
+        this.surgeon = surgeon;
+    }
 }

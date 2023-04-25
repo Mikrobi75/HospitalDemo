@@ -11,9 +11,9 @@ import java.util.Optional;
 @Transactional
 public class PeopleService {
     private final PeopleRepository peopleRepository;
-    private final OperationService operationService;
+    private final OperationsService operationService;
 
-    public PeopleService(PeopleRepository peopleRepository, OperationService operationService) {
+    public PeopleService(PeopleRepository peopleRepository, OperationsService operationService) {
         this.peopleRepository = peopleRepository;
         this.operationService = operationService;
     }
