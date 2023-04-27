@@ -49,4 +49,12 @@ public class OperationService {
     public void deleteOperation(Long id) {
         operationRepository.delete(findById(id));
     }
+
+    public void deleteOperationBySurgeonId(Long id) {
+        operationRepository.deleteOperationBySurgeonId(id);
+    }
+
+    public void deleteOperationByPatientId(Long id) {
+        operationRepository.deleteOperationByPatientId(id);
+    }
 }

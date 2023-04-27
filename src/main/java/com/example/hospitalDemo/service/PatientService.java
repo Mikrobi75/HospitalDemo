@@ -17,8 +17,11 @@ public class PatientService {
 
     private PatientRepository patientRepository;
 
+    private OperationService operationService;
+
     @Autowired
-    public PatientService(PatientRepository patientRepository) {
+    public PatientService(PatientRepository patientRepository, OperationService operationService) {
+        this.operationService = operationService;
         this.patientRepository = patientRepository;
     }
 
@@ -48,6 +51,7 @@ public class PatientService {
     }
 
     public void deletePatient(Long id) {
+        operationService.deleteOperationByPatientId(id);
         patientRepository.delete(findById(id));
     }
 }

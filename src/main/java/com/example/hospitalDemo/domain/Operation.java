@@ -18,11 +18,11 @@ public class Operation {
     private String operatingRoom;
 
     @ManyToOne
-    @JoinColumn(name = "patientid")
+    @JoinColumn(name = "patientid", referencedColumnName = "id")
     private Patient patient;
 
     @ManyToOne
-    @JoinColumn(name = "surgeonid")
+    @JoinColumn(name = "surgeonid", referencedColumnName = "id")
     private Surgeon surgeon;
 
     public Long getId() {

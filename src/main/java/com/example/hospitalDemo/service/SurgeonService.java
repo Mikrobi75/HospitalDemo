@@ -13,10 +13,12 @@ import java.util.List;
 @Transactional
 public class SurgeonService {
     private SurgeonRepository surgeonRepository;
+    private OperationService operationService;
 
     @Autowired
-    public SurgeonService(SurgeonRepository surgeonRepository) {
+    public SurgeonService(SurgeonRepository surgeonRepository,OperationService operationService) {
         this.surgeonRepository = surgeonRepository;
+        this.operationService = operationService;
     }
 
     public Surgeon findById(Long id) {
@@ -45,6 +47,7 @@ public class SurgeonService {
     }
 
     public void deleteSurgeon(Long id) {
+        operationService.deleteOperationBySurgeonId(id);
         surgeonRepository.delete(findById(id));
     }
     
