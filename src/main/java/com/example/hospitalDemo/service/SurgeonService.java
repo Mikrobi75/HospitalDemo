@@ -1,6 +1,7 @@
 package com.example.hospitalDemo.service;
 
 import com.example.hospitalDemo.domain.Surgeon;
+import com.example.hospitalDemo.dto.incoming.SurgeonCommand;
 import com.example.hospitalDemo.repository.SurgeonRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
@@ -34,8 +35,11 @@ public class SurgeonService {
         return surgeonRepository.findAll();
     }
 
-    public void saveSurgeon(Surgeon surgeon) {
+    /*public void saveSurgeon(Surgeon surgeon) {
         surgeonRepository.save(surgeon);
+    }*/
+    public void saveSurgeon(SurgeonCommand surgeon) {
+        surgeonRepository.save(new Surgeon(surgeon));
     }
 
     public void updateSurgeon(Long surgeonId, Surgeon surgeon) {

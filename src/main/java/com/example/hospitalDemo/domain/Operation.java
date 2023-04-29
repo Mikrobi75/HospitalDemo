@@ -1,5 +1,6 @@
 package com.example.hospitalDemo.domain;
 
+import com.example.hospitalDemo.dto.incoming.OperationCommand;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -24,6 +25,7 @@ public class Operation {
     @ManyToOne
     @JoinColumn(name = "surgeonid", referencedColumnName = "id")
     private Surgeon surgeon;
+
 
     public Long getId() {
         return id;

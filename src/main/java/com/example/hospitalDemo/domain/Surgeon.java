@@ -1,5 +1,6 @@
 package com.example.hospitalDemo.domain;
 
+import com.example.hospitalDemo.dto.incoming.SurgeonCommand;
 import jakarta.persistence.*;
 import jdk.jfr.Name;
 import org.springframework.dao.DataAccessException;
@@ -26,6 +27,11 @@ public class Surgeon {
     @OneToMany(mappedBy = "surgeon")
     private List<Operation> operations;
 
+    public Surgeon (SurgeonCommand surgeonCommand) {
+        this.firstName = surgeonCommand.getFirstName();
+        this.lastName = surgeonCommand.getLastName();
+        this.beginOfPractice = surgeonCommand.getBeginOfPractice();
+    }
 
     public Long getId() {
         return id;

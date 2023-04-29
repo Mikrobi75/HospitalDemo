@@ -1,6 +1,7 @@
 package com.example.hospitalDemo.controller;
 
 import com.example.hospitalDemo.domain.Surgeon;
+import com.example.hospitalDemo.dto.incoming.SurgeonCommand;
 import com.example.hospitalDemo.service.SurgeonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,8 +30,8 @@ public class SurgeonController {
     }
 
     @PostMapping
-    public ResponseEntity createSurgeon(@RequestBody Surgeon surgeon) {
-        surgeonService.saveSurgeon(surgeon);
+    public ResponseEntity createSurgeon(@RequestBody SurgeonCommand surgeonCommand) {
+        surgeonService.saveSurgeon(surgeonCommand);
         return new ResponseEntity(HttpStatus.CREATED);
     }
 
