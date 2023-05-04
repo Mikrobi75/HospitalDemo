@@ -27,6 +27,10 @@ public class Surgeon {
     @OneToMany(mappedBy = "surgeon")
     private List<Operation> operations;
 
+    public Surgeon() {
+
+    }
+
     public Surgeon (SurgeonCommand surgeonCommand) {
         this.firstName = surgeonCommand.getFirstName();
         this.lastName = surgeonCommand.getLastName();

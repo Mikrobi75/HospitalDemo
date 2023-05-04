@@ -2,6 +2,9 @@ package com.example.hospitalDemo.service;
 
 import com.example.hospitalDemo.domain.Surgeon;
 import com.example.hospitalDemo.dto.incoming.SurgeonCommand;
+import com.example.hospitalDemo.dto.incoming.SurgeonUpdateCommand;
+import com.example.hospitalDemo.dto.outgoing.SurgeonDetail;
+import com.example.hospitalDemo.dto.outgoing.SurgeonListItem;
 import com.example.hospitalDemo.repository.SurgeonRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
@@ -9,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -26,13 +30,13 @@ public class SurgeonService {
         return surgeonRepository.findById(id).orElseThrow(EntityNotFoundException::new);
     }
 
-    public Surgeon findSurgeonById(Long id) {
+    public SurgeonDetail findSurgeonById(Long id) {
         Surgeon surgeon = findById(id);
-        return surgeon;
+        return new SurgeonDetail(surgeon);
     }
 
-    public List<Surgeon> findAllAccount() {
-        return surgeonRepository.findAll();
+    public List<SurgeonListItem> findAllAccount() {
+        return surgeonRepository.findAll().stream().map(SurgeonListItem::new).collect(Collectors.toList());
     }
 
     /*public void saveSurgeon(Surgeon surgeon) {
@@ -42,11 +46,11 @@ public class SurgeonService {
         surgeonRepository.save(new Surgeon(surgeon));
     }
 
-    public void updateSurgeon(Long surgeonId, Surgeon surgeon) {
+    public void updateSurgeon(Long surgeonId, SurgeonUpdateCommand surgeonUpdateCommand) {
         Surgeon actualSurgeon = findById(surgeonId);
-        actualSurgeon.setFirstName(surgeon.getFirstName());
-        actualSurgeon.setLastName(surgeon.getLastName());
-        actualSurgeon.setBeginOfPractice(surgeon.getBeginOfPractice());
+        actualSurgeon.setFirstName(surgeonUpdateCommand.getFirstName());
+        actualSurgeon.setLastName(surgeonUpdateCommand.getLastName());
+        actualSurgeon.setBeginOfPractice(surgeonUpdateCommand.getBeginOfPractice());
         surgeonRepository.save(actualSurgeon);
     }
 

@@ -2,6 +2,10 @@ package com.example.hospitalDemo.controller;
 
 import com.example.hospitalDemo.domain.Operations;
 import com.example.hospitalDemo.domain.Patient;
+import com.example.hospitalDemo.dto.incoming.PatientCommand;
+import com.example.hospitalDemo.dto.incoming.PatientUpdateCommand;
+import com.example.hospitalDemo.dto.outgoing.PatientDetail;
+import com.example.hospitalDemo.dto.outgoing.PatientListItem;
 import com.example.hospitalDemo.repository.OperationsRepository;
 import com.example.hospitalDemo.service.PatientService;
 import com.example.hospitalDemo.service.PeopleService;
@@ -28,25 +32,25 @@ public class PatientController {
     }
 
     @GetMapping
-    public ResponseEntity getAllPatient() {
+    public ResponseEntity<List<PatientListItem>> getAllPatient() {
         return new ResponseEntity(patientService.findAllAccount(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity getPatientById(@PathVariable("id") Long id) {
-        Patient patient = patientService.findPatientById(id);
-        return new ResponseEntity<>(patient,HttpStatus.OK);
+    public ResponseEntity<PatientDetail> getPatientById(@PathVariable("id") Long id) {
+        PatientDetail patientDetail = patientService.findPatientById(id);
+        return new ResponseEntity<>(patientDetail,HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity createPatient(@RequestBody Patient patient) {
-        patientService.savePatient(patient);
+    public ResponseEntity createPatient(@RequestBody PatientCommand patientCommand) {
+        patientService.savePatient(patientCommand);
         return new ResponseEntity(HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity updatePatient(@PathVariable("id") Long patientId, @RequestBody Patient patient) {
-        patientService.updatePatient(patientId, patient);
+    public ResponseEntity updatePatient(@PathVariable("id") Long patientId, @RequestBody PatientUpdateCommand patientUpdateCommand) {
+        patientService.updatePatient(patientId, patientUpdateCommand);
         return new ResponseEntity(HttpStatus.OK);
     }
 

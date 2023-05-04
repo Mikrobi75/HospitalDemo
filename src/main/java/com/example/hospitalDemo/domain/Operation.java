@@ -26,6 +26,9 @@ public class Operation {
     @JoinColumn(name = "surgeonid", referencedColumnName = "id")
     private Surgeon surgeon;
 
+    public Operation() {
+
+    }
 
     public Long getId() {
         return id;

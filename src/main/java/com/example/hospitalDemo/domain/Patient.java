@@ -1,8 +1,9 @@
 package com.example.hospitalDemo.domain;
 
+import com.example.hospitalDemo.dto.incoming.PatientCommand;
+import com.example.hospitalDemo.dto.incoming.SurgeonCommand;
 import jakarta.persistence.*;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -24,6 +25,15 @@ public class Patient {
     @OneToMany(mappedBy = "patient")
     private List<Operation> operations;
 
+    public Patient() {
+
+    }
+
+    public Patient (PatientCommand patientCommand) {
+        this.firstName = patientCommand.getFirstName();
+        this.lastName = patientCommand.getLastName();
+        this.tajNumber = patientCommand.getTajNumber();
+    }
 
 
     public Long getId() {

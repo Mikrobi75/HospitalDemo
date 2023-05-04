@@ -1,15 +1,19 @@
 package com.example.hospitalDemo.service;
 
 import com.example.hospitalDemo.domain.Patient;
+import com.example.hospitalDemo.dto.incoming.PatientCommand;
+import com.example.hospitalDemo.dto.incoming.PatientUpdateCommand;
+import com.example.hospitalDemo.dto.outgoing.PatientDetail;
+import com.example.hospitalDemo.dto.outgoing.PatientListItem;
+import com.example.hospitalDemo.dto.outgoing.SurgeonListItem;
 import com.example.hospitalDemo.repository.PatientRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -29,24 +33,24 @@ public class PatientService {
         return patientRepository.findById(id).orElseThrow(EntityNotFoundException::new);
     }
 
-    public Patient findPatientById(Long id) {
+    public PatientDetail findPatientById(Long id) {
         Patient patient = findById(id);
-        return patient;
+        return (new PatientDetail(patient));
     }
 
-    public List<Patient> findAllAccount() {
-        return patientRepository.findAll();
+    public List<PatientListItem> findAllAccount() {
+        return patientRepository.findAll().stream().map(PatientListItem::new).collect(Collectors.toList());
     }
 
-    public void savePatient(Patient patient) {
-        patientRepository.save(patient);
+    public void savePatient(PatientCommand patientCommand) {
+        patientRepository.save(new Patient(patientCommand));
     }
 
-    public void updatePatient(Long patientId, Patient patient) {
+    public void updatePatient(Long patientId, PatientUpdateCommand patientUpdateCommand) {
         Patient actualPatient = findById(patientId);
-        actualPatient.setFirstName(patient.getFirstName());
-        actualPatient.setLastName(patient.getLastName());
-        actualPatient.setTajNumber(patient.getTajNumber());
+        actualPatient.setFirstName(patientUpdateCommand.getFirstName());
+        actualPatient.setLastName(patientUpdateCommand.getLastName());
+        actualPatient.setTajNumber(patientUpdateCommand.getTajNumber());
         patientRepository.save(actualPatient);
     }
 
