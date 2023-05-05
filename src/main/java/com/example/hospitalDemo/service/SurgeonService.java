@@ -39,9 +39,6 @@ public class SurgeonService {
         return surgeonRepository.findAll().stream().map(SurgeonListItem::new).collect(Collectors.toList());
     }
 
-    /*public void saveSurgeon(Surgeon surgeon) {
-        surgeonRepository.save(surgeon);
-    }*/
     public void saveSurgeon(SurgeonCommand surgeon) {
         surgeonRepository.save(new Surgeon(surgeon));
     }

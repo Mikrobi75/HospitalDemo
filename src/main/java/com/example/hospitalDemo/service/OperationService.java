@@ -76,22 +76,12 @@ public class OperationService {
 
         Optional<Surgeon> surgeon = surgeonRepository.findById(operationUpdateCommand.getSurgeonId());
         Optional<Patient> patient = patientRepository.findById(operationUpdateCommand.getPatientId());
-
-
         actualOperation.setOperatingRoom(operationUpdateCommand.getOperatingRoom());
         actualOperation.setOperationDate(operationUpdateCommand.getOperationDate());
-        //actualOperation.setPatient(operationUpdateCommand.getPatient());
-        //actualOperation.setSurgeon(operationUpdateCommand.getSurgeon());
         actualOperation.setSurgeon(surgeon.get());
         actualOperation.setPatient(patient.get());
 
         operationRepository.save(actualOperation);
-        /*Optional<Surgeon> surgeon = surgeonRepository.findById(operationUpdateCommand.getSurgeonId());
-        Optional<Patient> patient = patientRepository.findById(operationUpdateCommand.getPatientId());
-        Operation operation = modelMapper.map(operationUpdateCommand, Operation.class);
-        operation.setSurgeon(surgeon.get());
-        operation.setPatient(patient.get());
-        operationRepository.save(operation);*/
     }
 
     public void deleteOperation(Long id) {

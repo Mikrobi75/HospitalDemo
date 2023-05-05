@@ -1,22 +1,16 @@
 package com.example.hospitalDemo.controller;
 
-import com.example.hospitalDemo.domain.Operations;
-import com.example.hospitalDemo.domain.Patient;
 import com.example.hospitalDemo.dto.incoming.PatientCommand;
 import com.example.hospitalDemo.dto.incoming.PatientUpdateCommand;
 import com.example.hospitalDemo.dto.outgoing.PatientDetail;
 import com.example.hospitalDemo.dto.outgoing.PatientListItem;
-import com.example.hospitalDemo.repository.OperationsRepository;
 import com.example.hospitalDemo.service.PatientService;
-import com.example.hospitalDemo.service.PeopleService;
-import jakarta.validation.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 import static java.time.LocalDate.now;
 
