@@ -1,8 +1,14 @@
 package com.example.hospitalDemo.dto.incoming;
 
+import jakarta.validation.constraints.NotBlank;
+
 public class PatientUpdateCommand {
+
+    @NotBlank
     private String firstName;
+    @NotBlank
     private String lastName;
+    @NotBlank
     private String tajNumber;
 
     public String getFirstName() {

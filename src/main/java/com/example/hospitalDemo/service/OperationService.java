@@ -7,7 +7,6 @@ import com.example.hospitalDemo.dto.incoming.OperationCommand;
 import com.example.hospitalDemo.dto.incoming.OperationUpdateCommand;
 import com.example.hospitalDemo.dto.outgoing.OperationDetail;
 import com.example.hospitalDemo.dto.outgoing.OperationListItem;
-import com.example.hospitalDemo.dto.outgoing.SurgeonListItem;
 import com.example.hospitalDemo.repository.OperationRepository;
 import com.example.hospitalDemo.repository.PatientRepository;
 import com.example.hospitalDemo.repository.SurgeonRepository;
@@ -17,8 +16,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;

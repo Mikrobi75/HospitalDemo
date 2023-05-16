@@ -1,10 +1,17 @@
 package com.example.hospitalDemo.dto.incoming;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
 import java.time.LocalDate;
 
 public class SurgeonCommand {
+
+    @NotBlank
     private String firstName;
+    @NotBlank
     private String lastName;
+    @NotNull
     private LocalDate beginOfPractice;
 
     public String getFirstName() {

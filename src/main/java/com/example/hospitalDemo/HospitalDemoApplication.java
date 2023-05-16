@@ -1,5 +1,7 @@
 package com.example.hospitalDemo;
 
+import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.OpenAPI;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.boot.SpringApplication;
@@ -22,4 +24,14 @@ public class HospitalDemoApplication {
 				.setMatchingStrategy(MatchingStrategies.STRICT);
 		return modelMapper;
 	}
+
+	@Bean
+	public OpenAPI customOpenAPI() {
+		return new OpenAPI()
+				.info(new Info()
+						.title("Hospital API")
+						.version("1.0.0")
+						.description("This is a Hospital application"));
+	}
+
 }

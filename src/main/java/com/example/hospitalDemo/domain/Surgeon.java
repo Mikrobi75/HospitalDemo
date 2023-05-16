@@ -3,11 +3,17 @@ package com.example.hospitalDemo.domain;
 import com.example.hospitalDemo.dto.incoming.SurgeonCommand;
 import jakarta.persistence.*;
 import jdk.jfr.Name;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.dao.DataAccessException;
 
 import java.time.LocalDate;
 import java.util.List;
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 public class Surgeon {
     @Id
@@ -26,10 +32,6 @@ public class Surgeon {
 
     @OneToMany(mappedBy = "surgeon")
     private List<Operation> operations;
-
-    public Surgeon() {
-
-    }
 
     public Surgeon (SurgeonCommand surgeonCommand) {
         this.firstName = surgeonCommand.getFirstName();

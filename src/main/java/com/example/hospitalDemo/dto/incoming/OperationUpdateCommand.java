@@ -1,11 +1,18 @@
 package com.example.hospitalDemo.dto.incoming;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
 import java.time.LocalDate;
 
 public class OperationUpdateCommand {
+    @NotNull
     private LocalDate operationDate;
+    @NotBlank
     private String operatingRoom;
+    @NotNull
     private Long patientId;
+    @NotNull
     private Long surgeonId;
 
     public LocalDate getOperationDate() {
