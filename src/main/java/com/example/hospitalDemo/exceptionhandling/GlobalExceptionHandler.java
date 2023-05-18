@@ -20,4 +20,19 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(validationErrors, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(SurgeonNotFoundException.class)
+    public ResponseEntity<List<ValidationError>> handleUserNotFound(SurgeonNotFoundException exception) {
+        ValidationError validationError = new ValidationError("surgeonId",
+                "Surgeon not found with id: " + exception.getSurgeonId());
+        return new ResponseEntity<>(List.of(validationError), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(PatientNotFoundException.class)
+    public ResponseEntity<List<ValidationError>> handleUserNotFound(PatientNotFoundException exception) {
+        ValidationError validationError = new ValidationError("PatientId",
+                "Patient not found with id: " + exception.getPatientId());
+        return new ResponseEntity<>(List.of(validationError), HttpStatus.BAD_REQUEST);
+    }
+
+    
 }

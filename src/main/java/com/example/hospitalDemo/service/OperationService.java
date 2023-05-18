@@ -7,6 +7,8 @@ import com.example.hospitalDemo.dto.incoming.OperationCommand;
 import com.example.hospitalDemo.dto.incoming.OperationUpdateCommand;
 import com.example.hospitalDemo.dto.outgoing.OperationDetail;
 import com.example.hospitalDemo.dto.outgoing.OperationListItem;
+import com.example.hospitalDemo.exceptionhandling.PatientNotFoundException;
+import com.example.hospitalDemo.exceptionhandling.SurgeonNotFoundException;
 import com.example.hospitalDemo.repository.OperationRepository;
 import com.example.hospitalDemo.repository.PatientRepository;
 import com.example.hospitalDemo.repository.SurgeonRepository;
@@ -62,6 +64,12 @@ public class OperationService {
     public void saveOperation(OperationCommand operationCommand) {
         Optional<Surgeon> surgeon = surgeonRepository.findById(operationCommand.getSurgeonId());
         Optional<Patient> patient = patientRepository.findById(operationCommand.getPatientId());
+        if (!surgeon.isPresent()) {
+            throw new SurgeonNotFoundException(operationCommand.getSurgeonId());
+        }
+        if (!patient.isPresent()) {
+            throw new PatientNotFoundException(operationCommand.getPatientId());
+        }
         Operation operation = modelMapper.map(operationCommand, Operation.class);
         operation.setSurgeon(surgeon.get());
         operation.setPatient(patient.get());
@@ -73,6 +81,12 @@ public class OperationService {
 
         Optional<Surgeon> surgeon = surgeonRepository.findById(operationUpdateCommand.getSurgeonId());
         Optional<Patient> patient = patientRepository.findById(operationUpdateCommand.getPatientId());
+        if (!surgeon.isPresent()) {
+            throw new SurgeonNotFoundException(operationUpdateCommand.getSurgeonId());
+        }
+        if (!patient.isPresent()) {
+            throw new PatientNotFoundException(operationUpdateCommand.getPatientId());
+        }
         actualOperation.setOperatingRoom(operationUpdateCommand.getOperatingRoom());
         actualOperation.setOperationDate(operationUpdateCommand.getOperationDate());
         actualOperation.setSurgeon(surgeon.get());
