@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/operation")
+@RequestMapping("/api/operations")
 @Slf4j
 public class OperationController {
     private OperationService operationService;

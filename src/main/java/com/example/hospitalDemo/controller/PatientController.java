@@ -17,7 +17,7 @@ import java.util.List;
 import static java.time.LocalDate.now;
 
 @RestController
-@RequestMapping("/api/patient")
+@RequestMapping("/api/patients")
 @Slf4j
 public class PatientController {
 

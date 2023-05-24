@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/surgeon")
+@RequestMapping("/api/surgeons")
 @Slf4j
 public class SurgeonController {
     private SurgeonService surgeonService;
