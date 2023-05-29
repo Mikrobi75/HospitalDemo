@@ -6,6 +6,7 @@ import com.example.hospitalDemo.dto.incoming.SurgeonUpdateCommand;
 import com.example.hospitalDemo.dto.outgoing.SurgeonDetail;
 import com.example.hospitalDemo.dto.outgoing.SurgeonListItem;
 import com.example.hospitalDemo.service.SurgeonService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,37 +28,57 @@ public class SurgeonController {
     }
 
     @GetMapping
-    public ResponseEntity<List<SurgeonListItem>> getAllSurgeon() {
-        log.info("Http request, GET /api/surgeon");
-        return new ResponseEntity(surgeonService.findAllAccount(), HttpStatus.OK);
+    public ResponseEntity<List<SurgeonListItem>> getAllSurgeon(HttpServletRequest req) {
+        log.info("Http request, GET /api/surgeons");
+        if (req.getSession().getAttribute("userName") == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } else {
+            return new ResponseEntity(surgeonService.findAllAccount(), HttpStatus.OK);
+        }
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<SurgeonDetail> getSurgeonById(@PathVariable("id") Long id) {
-        log.info("Http request, GET /api/surgeon/{id}, variable:" + id);
-        SurgeonDetail surgeon = surgeonService.findSurgeonById(id);
-        return new ResponseEntity<>(surgeon,HttpStatus.OK);
+    public ResponseEntity<SurgeonDetail> getSurgeonById(@PathVariable("id") Long id, HttpServletRequest req) {
+        log.info("Http request, GET /api/surgeons/{id}, variable:" + id);
+        if (req.getSession().getAttribute("userName") == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } else {
+            SurgeonDetail surgeon = surgeonService.findSurgeonById(id);
+            return new ResponseEntity<>(surgeon, HttpStatus.OK);
+        }
     }
 
     @PostMapping
-    public ResponseEntity createSurgeon(@Valid @RequestBody SurgeonCommand surgeonCommand) {
-        log.info("Http request, POST /api/surgeon/{id}, body:" + surgeonCommand.toString());
-        surgeonService.saveSurgeon(surgeonCommand);
-        return new ResponseEntity(HttpStatus.CREATED);
+    public ResponseEntity createSurgeon(@Valid @RequestBody SurgeonCommand surgeonCommand, HttpServletRequest req) {
+        log.info("Http request, POST /api/surgeons/{id}, body:" + surgeonCommand.toString());
+        if (req.getSession().getAttribute("userName") == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } else {
+            surgeonService.saveSurgeon(surgeonCommand);
+            return new ResponseEntity(HttpStatus.CREATED);
+        }
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity updateSurgeon(@PathVariable("id") Long surgeonId, @Valid @RequestBody SurgeonUpdateCommand surgeonUpdateCommand) {
-        log.info("Http request, PUT /api/surgeon/{id}, body:" + surgeonUpdateCommand.toString() + ", variable: " + surgeonId);
-        surgeonService.updateSurgeon(surgeonId, surgeonUpdateCommand);
-        return new ResponseEntity(HttpStatus.OK);
+    public ResponseEntity updateSurgeon(@PathVariable("id") Long surgeonId, @Valid @RequestBody SurgeonUpdateCommand surgeonUpdateCommand, HttpServletRequest req) {
+        log.info("Http request, PUT /api/surgeons/{id}, body:" + surgeonUpdateCommand.toString() + ", variable: " + surgeonId);
+        if (req.getSession().getAttribute("userName") == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } else {
+            surgeonService.updateSurgeon(surgeonId, surgeonUpdateCommand);
+            return new ResponseEntity(HttpStatus.OK);
+        }
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity deleteSurgeon(@PathVariable("id") Long surgeonId) {
-        log.info("Http request, DELETE /api/surgeon/{id}, variable" + surgeonId);
-        surgeonService.deleteSurgeon(surgeonId);
-        return new ResponseEntity(HttpStatus.OK);
+    public ResponseEntity deleteSurgeon(@PathVariable("id") Long surgeonId, HttpServletRequest req) {
+        log.info("Http request, DELETE /api/surgeons/{id}, variable" + surgeonId);
+        if (req.getSession().getAttribute("userName") == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } else {
+            surgeonService.deleteSurgeon(surgeonId);
+            return new ResponseEntity(HttpStatus.OK);
+        }
     }
-    
+
 }

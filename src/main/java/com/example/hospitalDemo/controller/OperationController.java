@@ -6,6 +6,7 @@ import com.example.hospitalDemo.dto.incoming.OperationUpdateCommand;
 import com.example.hospitalDemo.dto.outgoing.OperationDetail;
 import com.example.hospitalDemo.dto.outgoing.OperationListItem;
 import com.example.hospitalDemo.service.OperationService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,36 +28,56 @@ public class OperationController {
     }
 
     @GetMapping
-    public ResponseEntity<List<OperationListItem>> getAllOperation() {
-        log.info("Http request, GET /api/operation");
-        return new ResponseEntity(operationService.findAllAccount(), HttpStatus.OK);
+    public ResponseEntity<List<OperationListItem>> getAllOperation(HttpServletRequest req) {
+        log.info("Http request, GET /api/operations");
+        if (req.getSession().getAttribute("userName") == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } else {
+            return new ResponseEntity(operationService.findAllAccount(), HttpStatus.OK);
+        }
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<OperationDetail> getOperationById(@PathVariable("id") Long id) {
-        log.info("Http request, GET /api/operation/{id}, variable:" + id);
-        OperationDetail operationDetail = operationService.findOperationById(id);
-        return new ResponseEntity<>(operationDetail,HttpStatus.OK);
+    public ResponseEntity<OperationDetail> getOperationById(@PathVariable("id") Long id, HttpServletRequest req) {
+        log.info("Http request, GET /api/operations/{id}, variable:" + id);
+        if (req.getSession().getAttribute("userName") == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } else {
+            OperationDetail operationDetail = operationService.findOperationById(id);
+            return new ResponseEntity<>(operationDetail, HttpStatus.OK);
+        }
     }
 
     @PostMapping
-    public ResponseEntity createOperation(@Valid @RequestBody OperationCommand operationCommand) {
-        log.info("Http request, POST /api/operation/{id}, body:" + operationCommand.toString());
-        operationService.saveOperation(operationCommand);
-        return new ResponseEntity(HttpStatus.CREATED);
+    public ResponseEntity createOperation(@Valid @RequestBody OperationCommand operationCommand, HttpServletRequest req) {
+        log.info("Http request, POST /api/operations/{id}, body:" + operationCommand.toString());
+        if (req.getSession().getAttribute("userName") == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } else {
+            operationService.saveOperation(operationCommand);
+            return new ResponseEntity(HttpStatus.CREATED);
+        }
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity updateOperation(@PathVariable("id") Long operationId, @Valid @RequestBody OperationUpdateCommand operationUpdateCommand) {
-        log.info("Http request, PUT /api/surgeon/{id}, body:" + operationUpdateCommand.toString() + ", variable: " + operationId);
-        operationService.updateOperation(operationId, operationUpdateCommand);
-        return new ResponseEntity(HttpStatus.OK);
+    public ResponseEntity updateOperation(@PathVariable("id") Long operationId, @Valid @RequestBody OperationUpdateCommand operationUpdateCommand, HttpServletRequest req) {
+        log.info("Http request, PUT /api/operations/{id}, body:" + operationUpdateCommand.toString() + ", variable: " + operationId);
+        if (req.getSession().getAttribute("userName") == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } else {
+            operationService.updateOperation(operationId, operationUpdateCommand);
+            return new ResponseEntity(HttpStatus.OK);
+        }
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity deleteOperation(@PathVariable("id") Long operationId) {
-        log.info("Http request, DELETE /api/operation/{id}, variable" + operationId);
-        operationService.deleteOperation(operationId);
-        return new ResponseEntity(HttpStatus.OK);
+    public ResponseEntity deleteOperation(@PathVariable("id") Long operationId, HttpServletRequest req) {
+        log.info("Http request, DELETE /api/operations/{id}, variable" + operationId);
+        if (req.getSession().getAttribute("userName") == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } else {
+            operationService.deleteOperation(operationId);
+            return new ResponseEntity(HttpStatus.OK);
+        }
     }
 }

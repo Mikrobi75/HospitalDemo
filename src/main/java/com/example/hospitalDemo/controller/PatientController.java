@@ -5,6 +5,7 @@ import com.example.hospitalDemo.dto.incoming.PatientUpdateCommand;
 import com.example.hospitalDemo.dto.outgoing.PatientDetail;
 import com.example.hospitalDemo.dto.outgoing.PatientListItem;
 import com.example.hospitalDemo.service.PatientService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,37 +30,57 @@ public class PatientController {
     }
 
     @GetMapping
-    public ResponseEntity<List<PatientListItem>> getAllPatient() {
-        log.info("Http request, GET /api/patient");
-        return new ResponseEntity(patientService.findAllAccount(), HttpStatus.OK);
+    public ResponseEntity<List<PatientListItem>> getAllPatient(HttpServletRequest req) {
+        log.info("Http request, GET /api/patients");
+        if (req.getSession().getAttribute("userName") == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } else {
+            return new ResponseEntity(patientService.findAllAccount(), HttpStatus.OK);
+        }
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PatientDetail> getPatientById(@PathVariable("id") Long id) {
-        log.info("Http request, GET /api/patient/{id}, variable:" + id);
-        PatientDetail patientDetail = patientService.findPatientById(id);
-        return new ResponseEntity<>(patientDetail,HttpStatus.OK);
+    public ResponseEntity<PatientDetail> getPatientById(@PathVariable("id") Long id, HttpServletRequest req) {
+        log.info("Http request, GET /api/patients/{id}, variable:" + id);
+        if (req.getSession().getAttribute("userName") == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } else {
+            PatientDetail patientDetail = patientService.findPatientById(id);
+            return new ResponseEntity<>(patientDetail, HttpStatus.OK);
+        }
     }
 
     @PostMapping
-    public ResponseEntity createPatient(@Valid @RequestBody PatientCommand patientCommand) {
-        log.info("Http request, POST /api/patient/{id}, body:" + patientCommand.toString());
-        patientService.savePatient(patientCommand);
-        return new ResponseEntity(HttpStatus.CREATED);
+    public ResponseEntity createPatient(@Valid @RequestBody PatientCommand patientCommand, HttpServletRequest req) {
+        log.info("Http request, POST /api/patients/{id}, body:" + patientCommand.toString());
+        if (req.getSession().getAttribute("userName") == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } else {
+            patientService.savePatient(patientCommand);
+            return new ResponseEntity(HttpStatus.CREATED);
+        }
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity updatePatient(@PathVariable("id") Long patientId, @Valid @RequestBody PatientUpdateCommand patientUpdateCommand) {
-        log.info("Http request, PUT /api/patient/{id}, body:" + patientUpdateCommand.toString() + ", variable: " + patientId);
-        patientService.updatePatient(patientId, patientUpdateCommand);
-        return new ResponseEntity(HttpStatus.OK);
+    public ResponseEntity updatePatient(@PathVariable("id") Long patientId, @Valid @RequestBody PatientUpdateCommand patientUpdateCommand, HttpServletRequest req) {
+        log.info("Http request, PUT /api/patients/{id}, body:" + patientUpdateCommand.toString() + ", variable: " + patientId);
+        if (req.getSession().getAttribute("userName") == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } else {
+            patientService.updatePatient(patientId, patientUpdateCommand);
+            return new ResponseEntity(HttpStatus.OK);
+        }
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity deletePatient(@PathVariable("id") Long patientId) {
-        log.info("Http request, DELETE /api/patient/{id}, variable" + patientId);
-        patientService.deletePatient(patientId);
-        return new ResponseEntity(HttpStatus.OK);
+    public ResponseEntity deletePatient(@PathVariable("id") Long patientId, HttpServletRequest req) {
+        log.info("Http request, DELETE /api/patients/{id}, variable" + patientId);
+        if (req.getSession().getAttribute("userName") == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } else {
+            patientService.deletePatient(patientId);
+            return new ResponseEntity(HttpStatus.OK);
+        }
     }
 
 }
