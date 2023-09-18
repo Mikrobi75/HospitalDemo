@@ -33,4 +33,5 @@ public class HospitalDemoApplication {
 						.version("1.0.0")
 						.description("This is a Hospital application"));
 	}
+
 }
